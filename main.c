@@ -1,8 +1,8 @@
 #include <stdio.h>
-
+#include "splash.h"
 
 int main(void)
 {
-    printf("Hello world!\n");
+    splash_screen();
     return 0;
 }
