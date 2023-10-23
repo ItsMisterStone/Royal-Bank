@@ -11,22 +11,24 @@ int detect_account(char *username, char *password);
 int login_process(void)
 {
     int flag = 0;
+    int account;
     char username[100];
     char password[100];
 
     while(flag != 1)
     {
       user_pass(username, password);
+      account = detect_account(username, password);
 
-      if (detect_account(username, password) == 1)
+      if (account >= 1)
       {
           printf("Login successful \n");
           sleep(1);
           system("cls");
 
-          return 1;
+          return account;
       }
-      else if (detect_account(username, password) == 0)
+      else if (account == 0)
       {
           printf("Incorrect username or password \n");
       }
@@ -34,7 +36,6 @@ int login_process(void)
       {
           return 0;
       }
-
     }
 }
 
@@ -52,6 +53,7 @@ int detect_account(char *username, char *password)
     FILE *file_user,*file_pass;
     char real_user[100];
     char real_pass[100];
+    int n = 1;
 
     file_user = fopen("Usernames.txt", "r");
     file_pass = fopen("Passwords.txt", "r");
@@ -59,7 +61,7 @@ int detect_account(char *username, char *password)
     if (file_user == NULL || file_pass == NULL)
     {
         printf("Error opening files");
-        return 2;
+        return -1;
     }
     while (fgets(real_user, 100, file_user) && fgets(real_pass, 100, file_pass))
     {
@@ -73,13 +75,14 @@ int detect_account(char *username, char *password)
         {
             fclose(file_user);
             fclose(file_pass);
-            return 1;
+            return n;
         }
+        n++;
     }
 
     fclose(file_user);
     fclose(file_pass);
     return 0;
-
 }
+
 #endif // LOGIN_H_INCLUDED
