@@ -22,6 +22,7 @@ int login_process(void)
 
       if (account >= 1) //Proceeds if account number is detected
       {
+          printf("\n");
           printf("Login successful \n");
           sleep(1);
           system("cls");
@@ -30,7 +31,7 @@ int login_process(void)
       }
       else if (account == 0)
       {
-          printf("Incorrect username or password \n");
+          printf("Incorrect username or password \n\n");
       }
       else //Cancels program if no file is detected
       {
