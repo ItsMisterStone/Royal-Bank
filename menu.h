@@ -7,10 +7,10 @@ int actions(void); //Displays the actions the program can do and takes user inpu
 int verify_pin(int account_number); //Verifies the users pin number
 void update_structure(int account_number); //Updates the structure with the users information
 
-void check_balance(int account_number);
+void check_balance(int account_number); //Functions for checking balance and depositing/withdrawing cash
 void deposit(int account_number);
 void withdraw(int account_number);
-void deposit_cash(int account_number, int deposit_amount, int deposit_account);
+void deposit_cash(int account_number, int deposit_amount, int deposit_account); //Support functions for depositing and withdrawing
 void withdraw_cash(int account_number, int withdraw_amount, int deposit_account);
 
 struct credentials //Structure for storing the users information
@@ -111,11 +111,11 @@ int verify_pin(int account_number)
 void check_balance(int account_number)
 {
     update_structure(account_number);
-    if (verify_pin(account_number))
+    if (verify_pin(account_number)) //Checks pin
     {
-        int temp_balance_flag = 0;
+        int temp_balance_flag = 0; //For storing user input
 
-        printf("\nWhich account would you like to check the balance of \n");
+        printf("\nWhich account would you like to check the balance of \n"); //Ask for type of account
         printf("1. Savings account \n");
         printf("2. Current account \n");
         printf("3. Return to main menu \n");
@@ -134,7 +134,7 @@ void check_balance(int account_number)
         }
         else if (temp_balance_flag == 3)
         {
-            ;
+            ; //continues program to main menu
         }
         else
         {
@@ -148,9 +148,9 @@ void deposit(int account_number)
 {
     if (verify_pin(account_number))
     {
-        int temp_deposit_flag = 0;
+        int temp_deposit_flag = 0; //For Storing user input
 
-        printf("\nWhich account would you like to deposit to \n");
+        printf("\nWhich account would you like to deposit to \n"); //Ask for type of account
         printf("1. Savings account \n");
         printf("2. Current account \n");
         printf("3. Return to main menu \n");
@@ -161,11 +161,11 @@ void deposit(int account_number)
 
         if (temp_deposit_flag == 1)
         {
-            int deposit_amount = 1, deposit_account = 1;
+            int deposit_amount = 1, deposit_account = 1; //For storing cash amount and works on savings account
 
             while (deposit_amount % 500 != 0)
             {
-                printf("You can only deposit cash in increments of 500 or 1000 with a minimum deposit amount of 500 \n");
+                printf("You can only deposit cash in increments of 500 or 1000 with a minimum deposit amount of 500 \n"); //Deposit requirements of taka
                 printf("Enter the amount of money you would like to deposit: ");
                 scanf("%d", &deposit_amount);
 
@@ -181,7 +181,7 @@ void deposit(int account_number)
         }
         else if (temp_deposit_flag == 2)
         {
-            int deposit_amount = 1, deposit_account = 2;
+            int deposit_amount = 1, deposit_account = 2; //For storing cash amount and works on current account
 
             while (deposit_amount % 500 != 0)
             {
@@ -201,7 +201,7 @@ void deposit(int account_number)
         }
         else if (temp_deposit_flag == 3)
         {
-            ;
+            ; //Returns back to the menu
         }
         else
         {
@@ -212,22 +212,22 @@ void deposit(int account_number)
 }
 void deposit_cash(int account_number, int deposit_amount, int deposit_account)
 {
-    FILE *file_deposit_saving, *file_deposit_current;
-    int input[SIZE], i = 0;
+    int input[SIZE], i = 0; //For storing information of the file
 
     if (deposit_account == 1)
     {
+        FILE *file_deposit_saving; //Creates and opens the savings files
         file_deposit_saving = fopen("Savings Accounts.txt","r+");
 
         int status = fscanf(file_deposit_saving, "%d", &input[i]);
-        for (i = 1; status == 1; i++)
+        for (i = 1; status == 1; i++) //Copies all the files information into the array
         {
             status = fscanf(file_deposit_saving, "%d", &input[i]);
         }
 
-        input[account_number - 1] += deposit_amount;
+        input[account_number - 1] += deposit_amount; //Cash deposit
         file_deposit_saving = fopen("Savings Accounts.txt","w");
-        for (int j = 0; j < SIZE; j++)
+        for (int j = 0; j < SIZE; j++) //Updates the files information from the array
         {
             fprintf(file_deposit_saving, "%d\n", input[j]);
         }
@@ -236,17 +236,18 @@ void deposit_cash(int account_number, int deposit_amount, int deposit_account)
     }
     else
     {
+        FILE *file_deposit_current; //Creates and opens the current files
         file_deposit_current = fopen("Current Accounts.txt","r+");
 
         int status = fscanf(file_deposit_current, "%d", &input[i]);
-        for (i = 1; status == 1; i++)
+        for (i = 1; status == 1; i++) //Copies all the files information into the array
         {
             status = fscanf(file_deposit_current, "%d", &input[i]);
         }
 
-        input[account_number - 1] += deposit_amount;
+        input[account_number - 1] += deposit_amount; //Cash deposit
         file_deposit_current = fopen("Current Accounts.txt","w");
-        for (int j = 0; j < SIZE; j++)
+        for (int j = 0; j < SIZE; j++) //Updates the files information from the array
         {
             fprintf(file_deposit_current, "%d\n", input[j]);
         }
