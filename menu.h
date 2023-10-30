@@ -40,8 +40,7 @@ void menu_process(int account_number)
         }
         else if (input == 3)
         {
-            //withdraw(account_number);
-            ;
+            withdraw(account_number);
         }
         else if (input == 4)
         {
@@ -149,6 +148,7 @@ void deposit(int account_number)
     if (verify_pin(account_number))
     {
         int temp_deposit_flag = 0; //For Storing user input
+        update_structure(account_number);
 
         printf("\nWhich account would you like to deposit to \n"); //Ask for type of account
         printf("1. Savings account \n");
@@ -206,7 +206,7 @@ void deposit(int account_number)
         else
         {
             printf("Invalid input. Please re-verify your pin and try again \n");
-            check_balance(account_number);
+            deposit(account_number);
         }
     }
 }
@@ -253,6 +253,120 @@ void deposit_cash(int account_number, int deposit_amount, int deposit_account)
         }
 
         fclose(file_deposit_current);
+    }
+
+}
+
+void withdraw(int account_number)
+{
+    if (verify_pin(account_number))
+    {
+        int temp_withdraw_flag = 0; //For Storing user input
+        update_structure(account_number);
+
+        printf("\nWhich account would you like to withdraw from \n"); //Ask for type of account
+        printf("1. Savings account \n");
+        printf("2. Current account \n");
+        printf("3. Return to main menu \n");
+
+        printf("Enter your choice: ");
+        scanf("%d", &temp_withdraw_flag);
+        printf("\n");
+
+        if (temp_withdraw_flag == 1)
+        {
+            int withdraw_amount = 1, withdraw_account = 1; //For withdrawing cash amount on savings account
+
+            while (withdraw_amount % 500 != 0)
+            {
+                printf("You can only withdraw cash in increments of 500 or 1000 with a minimum withdrawal amount of 500 \n"); //Withdrawal requirements of taka
+                printf("Enter the amount of money you would like to withdraw: ");
+                scanf("%d", &withdraw_amount);
+
+                if (withdraw_amount % 500 == 0)
+                {
+                    withdraw_cash(account_number, withdraw_amount, withdraw_account);
+                }
+                else
+                {
+                    printf("Invalid input.Please try again \n");
+                }
+            }
+        }
+        else if (temp_withdraw_flag == 2)
+        {
+            int withdraw_amount = 1, withdraw_account = 2; //For withdrawing cash amount on current account
+
+            while (withdraw_amount % 500 != 0)
+            {
+                printf("You can only withdraw cash in increments of 500 or 1000 with a minimum withdrawal amount of 500 \n");
+                printf("Enter the amount of money you would like to withdraw: ");
+                scanf("%d", &withdraw_amount);
+
+                if (withdraw_amount % 500 == 0)
+                {
+                    withdraw_cash(account_number, withdraw_amount, withdraw_account);
+                }
+                else
+                {
+                    printf("Invalid input.Please try again \n");
+                }
+            }
+        }
+        else if (temp_withdraw_flag == 3)
+        {
+            ; //Returns back to the menu
+        }
+        else
+        {
+            printf("Invalid input. Please re-verify your pin and try again \n");
+            withdraw(account_number);
+        }
+    }
+}
+void withdraw_cash(int account_number, int withdraw_amount, int withdraw_account)
+{
+    int input[SIZE], i = 0; //For storing information of the file
+
+    if (withdraw_account == 1)
+    {
+        FILE *file_withdraw_saving; //Creates and opens the savings files
+        file_withdraw_saving = fopen("Savings Accounts.txt","r+");
+
+        int status = fscanf(file_withdraw_saving, "%d", &input[i]);
+        for (i = 1; status == 1; i++) //Copies all the files information into the array
+        {
+            status = fscanf(file_withdraw_saving, "%d", &input[i]);
+        }
+
+        input[account_number - 1] -= withdraw_amount; //Cash withdraw
+        file_withdraw_saving = fopen("Savings Accounts.txt","w");
+        for (int j = 0; j < SIZE; j++) //Updates the files information from the array
+        {
+            fprintf(file_withdraw_saving, "%d\n", input[j]);
+        }
+
+        fclose(file_withdraw_saving);
+    }
+    else
+    {
+        FILE *file_withdraw_current; //Creates and opens the current files
+        file_withdraw_current = fopen("Current Accounts.txt","r+");
+
+        int status = fscanf(file_withdraw_current, "%d", &input[i]);
+        for (i = 1; status == 1; i++) //Copies all the files information into the array
+        {
+            status = fscanf(file_withdraw_current, "%d", &input[i]);
+        }
+
+        input[account_number - 1] -= withdraw_amount; //Cash withdraw
+        file_withdraw_current = fopen("Current Accounts.txt","w");
+        for (int j = 0; j < SIZE; j++) //Updates the files information from the array
+        {
+            fprintf(file_withdraw_current, "%d\n", input[j]);
+        }
+
+        fclose(file_withdraw_current);
     }
 
 }
