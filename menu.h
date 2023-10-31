@@ -1,5 +1,6 @@
 #ifndef MENU_H_INCLUDED
 #define MENU_H_INCLUDED
+#include <dos.h>
 #define SIZE 6
 
 void menu_process(int account_number); //The entire menu process will be done with this function
@@ -98,6 +99,10 @@ int verify_pin(int account_number)
 
     if (temp_pin == p1.pin) //Checks pin
     {
+        printf("\nVerification successful");
+        sleep(1);
+
+        system("cls");
         return 1;
     }
     else //Invalid pin
@@ -114,7 +119,7 @@ void check_balance(int account_number)
     {
         int temp_balance_flag = 0; //For storing user input
 
-        printf("\nWhich account would you like to check the balance of \n"); //Ask for type of account
+        printf("Which account would you like to check the balance of \n"); //Ask for type of account
         printf("1. Savings account \n");
         printf("2. Current account \n");
         printf("3. Return to main menu \n");
@@ -133,7 +138,7 @@ void check_balance(int account_number)
         }
         else if (temp_balance_flag == 3)
         {
-            ; //continues program to main menu
+            system("cls"); //Continues program to main menu
         }
         else
         {
@@ -150,7 +155,7 @@ void deposit(int account_number)
         int temp_deposit_flag = 0; //For Storing user input
         update_structure(account_number);
 
-        printf("\nWhich account would you like to deposit to \n"); //Ask for type of account
+        printf("Which account would you like to deposit to \n"); //Ask for type of account
         printf("1. Savings account \n");
         printf("2. Current account \n");
         printf("3. Return to main menu \n");
@@ -165,6 +170,7 @@ void deposit(int account_number)
 
             while (deposit_amount % 500 != 0)
             {
+                printf("Your balance is %d taka \n\n", p1.savings);
                 printf("You can only deposit cash in increments of 500 or 1000 with a minimum deposit amount of 500 \n"); //Deposit requirements of taka
                 printf("Enter the amount of money you would like to deposit: ");
                 scanf("%d", &deposit_amount);
@@ -172,10 +178,11 @@ void deposit(int account_number)
                 if (deposit_amount % 500 == 0)
                 {
                     deposit_cash(account_number, deposit_amount, deposit_account);
+                    printf("\nDeposit successful. Your balance is now %d taka\n\n", p1.savings - deposit_amount);
                 }
                 else
                 {
-                    printf("Invalid input.Please try again \n");
+                    printf("Invalid input.Please try again \n\n");
                 }
             }
         }
@@ -185,6 +192,7 @@ void deposit(int account_number)
 
             while (deposit_amount % 500 != 0)
             {
+                printf("Your balance is %d taka \n\n", p1.current);
                 printf("You can only deposit cash in increments of 500 or 1000 with a minimum deposit amount of 500 \n");
                 printf("Enter the amount of money you would like to deposit: ");
                 scanf("%d", &deposit_amount);
@@ -192,16 +200,17 @@ void deposit(int account_number)
                 if (deposit_amount % 500 == 0)
                 {
                     deposit_cash(account_number, deposit_amount, deposit_account);
+                    printf("\nDeposit successful. Your balance is now %d taka\n\n", p1.current - deposit_amount);
                 }
                 else
                 {
-                    printf("Invalid input.Please try again \n");
+                    printf("Invalid input.Please try again \n\n");
                 }
             }
         }
         else if (temp_deposit_flag == 3)
         {
-            ; //Returns back to the menu
+            system("cls"); //Returns back to the menu
         }
         else
         {
@@ -264,7 +273,7 @@ void withdraw(int account_number)
         int temp_withdraw_flag = 0; //For Storing user input
         update_structure(account_number);
 
-        printf("\nWhich account would you like to withdraw from \n"); //Ask for type of account
+        printf("Which account would you like to withdraw from \n"); //Ask for type of account
         printf("1. Savings account \n");
         printf("2. Current account \n");
         printf("3. Return to main menu \n");
@@ -279,17 +288,25 @@ void withdraw(int account_number)
 
             while (withdraw_amount % 500 != 0)
             {
-                printf("You can only withdraw cash in increments of 500 or 1000 with a minimum withdrawal amount of 500 \n"); //Withdrawal requirements of taka
+                printf("Your balance is %d taka \n\n", p1.savings);
+                if (p1.savings == 0)
+                {
+                    printf("Withdrawing is not possible \n\n");
+                    break;
+                }
+
+                printf("You can only withdraw cash in increments of 500 or 1000 with a minimum withdrawal amount of 500. You cannot withdraw more than you have in your account \n"); //Withdrawal requirements of taka
                 printf("Enter the amount of money you would like to withdraw: ");
                 scanf("%d", &withdraw_amount);
 
-                if (withdraw_amount % 500 == 0)
+                if (withdraw_amount % 500 == 0 && withdraw_amount <= p1.savings)
                 {
                     withdraw_cash(account_number, withdraw_amount, withdraw_account);
+                    printf("\nWithdrawal successful. Your balance is now %d taka\n\n", p1.savings - withdraw_amount);
                 }
                 else
                 {
-                    printf("Invalid input.Please try again \n");
+                    printf("Invalid input.Please try again \n\n");
                 }
             }
         }
@@ -299,23 +316,30 @@ void withdraw(int account_number)
 
             while (withdraw_amount % 500 != 0)
             {
+                printf("Your balance is %d taka \n\n", p1.current);
+                if (p1.current == 0)
+                {
+                    printf("Withdrawing is not possible \n\n");
+                    break;
+                }
                 printf("You can only withdraw cash in increments of 500 or 1000 with a minimum withdrawal amount of 500 \n");
                 printf("Enter the amount of money you would like to withdraw: ");
                 scanf("%d", &withdraw_amount);
 
-                if (withdraw_amount % 500 == 0)
+                if (withdraw_amount % 500 == 0 && withdraw_amount <= p1.current)
                 {
                     withdraw_cash(account_number, withdraw_amount, withdraw_account);
+                    printf("\nWithdrawal successful. Your balance is now %d taka\n\n", p1.current - withdraw_amount);
                 }
                 else
                 {
-                    printf("Invalid input.Please try again \n");
+                    printf("Invalid input.Please try again \n\n");
                 }
             }
         }
         else if (temp_withdraw_flag == 3)
         {
-            ; //Returns back to the menu
+            system("cls"); //Returns back to the menu
         }
         else
         {
