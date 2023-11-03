@@ -178,7 +178,7 @@ void deposit(int account_number)
                 if (deposit_amount % 500 == 0)
                 {
                     deposit_cash(account_number, deposit_amount, deposit_account);
-                    printf("\nDeposit successful. Your balance is now %d taka\n\n", p1.savings - deposit_amount);
+                    printf("\nDeposit successful. Your balance is now %d taka\n\n", p1.savings + deposit_amount);
                 }
                 else
                 {
@@ -200,7 +200,7 @@ void deposit(int account_number)
                 if (deposit_amount % 500 == 0)
                 {
                     deposit_cash(account_number, deposit_amount, deposit_account);
-                    printf("\nDeposit successful. Your balance is now %d taka\n\n", p1.current - deposit_amount);
+                    printf("\nDeposit successful. Your balance is now %d taka\n\n", p1.current + deposit_amount);
                 }
                 else
                 {
