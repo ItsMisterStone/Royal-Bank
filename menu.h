@@ -172,7 +172,7 @@ void deposit(int account_number)
             {
                 printf("Your balance is %d taka \n\n", p1.savings);
                 printf("You can only deposit cash in increments of 500 or 1000 with a minimum deposit amount of 500 \n"); //Deposit requirements of taka
-                printf("Enter the amount of money you would like to deposit: ");
+                printf("Enter the amount of money you would like to deposit(Press 0 to continue without depositing): ");
                 scanf("%d", &deposit_amount);
 
                 if (deposit_amount % 500 == 0)
@@ -194,7 +194,7 @@ void deposit(int account_number)
             {
                 printf("Your balance is %d taka \n\n", p1.current);
                 printf("You can only deposit cash in increments of 500 or 1000 with a minimum deposit amount of 500 \n");
-                printf("Enter the amount of money you would like to deposit: ");
+                printf("Enter the amount of money you would like to deposit(Press 0 to continue without depositing): ");
                 scanf("%d", &deposit_amount);
 
                 if (deposit_amount % 500 == 0)
@@ -296,7 +296,7 @@ void withdraw(int account_number)
                 }
 
                 printf("You can only withdraw cash in increments of 500 or 1000 with a minimum withdrawal amount of 500. You cannot withdraw more than you have in your account \n"); //Withdrawal requirements of taka
-                printf("Enter the amount of money you would like to withdraw: ");
+                printf("Enter the amount of money you would like to withdraw(Press 0 to continue without withdrawing): ");
                 scanf("%d", &withdraw_amount);
 
                 if (withdraw_amount % 500 == 0 && withdraw_amount <= p1.savings)
@@ -323,7 +323,7 @@ void withdraw(int account_number)
                     break;
                 }
                 printf("You can only withdraw cash in increments of 500 or 1000 with a minimum withdrawal amount of 500 \n");
-                printf("Enter the amount of money you would like to withdraw: ");
+                printf("Enter the amount of money you would like to withdraw(Press 0 to continue without withdrawing): ");
                 scanf("%d", &withdraw_amount);
 
                 if (withdraw_amount % 500 == 0 && withdraw_amount <= p1.current)
