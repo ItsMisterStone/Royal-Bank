@@ -79,6 +79,12 @@ void update_structure(int account_number)
     file_struct2 = fopen("Savings Accounts.txt","r");
     file_struct3 = fopen("Current Accounts.txt","r");
 
+    if (file_struct1 == NULL || file_struct2 == NULL || file_struct3 == NULL)
+    {
+        printf("File not found");
+        exit(0);
+    }
+
     for (int i =0; i < account_number; i++) //Locates the information of the account
     {
         fscanf(file_struct1, "%d", &p1.pin); //Store the information of the account
@@ -228,6 +234,12 @@ void deposit_cash(int account_number, int deposit_amount, int deposit_account)
         FILE *file_deposit_saving; //Creates and opens the savings files
         file_deposit_saving = fopen("Savings Accounts.txt","r+");
 
+        if (file_deposit_saving == NULL)
+        {
+            printf("File not found");
+            exit(0);
+        }
+
         int status = fscanf(file_deposit_saving, "%d", &input[i]);
         for (i = 1; status == 1; i++) //Copies all the files information into the array
         {
@@ -235,6 +247,7 @@ void deposit_cash(int account_number, int deposit_amount, int deposit_account)
         }
 
         input[account_number - 1] += deposit_amount; //Cash deposit
+
         file_deposit_saving = fopen("Savings Accounts.txt","w");
         for (int j = 0; j < SIZE; j++) //Updates the files information from the array
         {
@@ -248,6 +261,12 @@ void deposit_cash(int account_number, int deposit_amount, int deposit_account)
         FILE *file_deposit_current; //Creates and opens the current files
         file_deposit_current = fopen("Current Accounts.txt","r+");
 
+        if (file_deposit_current == NULL)
+        {
+            printf("File not found");
+            exit(0);
+        }
+
         int status = fscanf(file_deposit_current, "%d", &input[i]);
         for (i = 1; status == 1; i++) //Copies all the files information into the array
         {
@@ -255,6 +274,7 @@ void deposit_cash(int account_number, int deposit_amount, int deposit_account)
         }
 
         input[account_number - 1] += deposit_amount; //Cash deposit
+
         file_deposit_current = fopen("Current Accounts.txt","w");
         for (int j = 0; j < SIZE; j++) //Updates the files information from the array
         {
@@ -357,6 +377,12 @@ void withdraw_cash(int account_number, int withdraw_amount, int withdraw_account
         FILE *file_withdraw_saving; //Creates and opens the savings files
         file_withdraw_saving = fopen("Savings Accounts.txt","r+");
 
+        if (file_withdraw_saving == NULL)
+        {
+            printf("File not found");
+            exit(0);
+        }
+
         int status = fscanf(file_withdraw_saving, "%d", &input[i]);
         for (i = 1; status == 1; i++) //Copies all the files information into the array
         {
@@ -364,6 +390,7 @@ void withdraw_cash(int account_number, int withdraw_amount, int withdraw_account
         }
 
         input[account_number - 1] -= withdraw_amount; //Cash withdraw
+
         file_withdraw_saving = fopen("Savings Accounts.txt","w");
         for (int j = 0; j < SIZE; j++) //Updates the files information from the array
         {
@@ -377,6 +404,12 @@ void withdraw_cash(int account_number, int withdraw_amount, int withdraw_account
         FILE *file_withdraw_current; //Creates and opens the current files
         file_withdraw_current = fopen("Current Accounts.txt","r+");
 
+        if (file_withdraw_current == NULL)
+        {
+            printf("File not found");
+            exit(0);
+        }
+
         int status = fscanf(file_withdraw_current, "%d", &input[i]);
         for (i = 1; status == 1; i++) //Copies all the files information into the array
         {
@@ -384,6 +417,7 @@ void withdraw_cash(int account_number, int withdraw_amount, int withdraw_account
         }
 
         input[account_number - 1] -= withdraw_amount; //Cash withdraw
+
         file_withdraw_current = fopen("Current Accounts.txt","w");
         for (int j = 0; j < SIZE; j++) //Updates the files information from the array
         {
